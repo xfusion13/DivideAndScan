@@ -134,11 +134,10 @@ class ScanShow(ScanBase):
 	def nmap_by_ports(self):
 		"""Search DB by ports and print mapping "open_port -> [live_hosts]". No Nmap scan is launched."""
 		for port, ip_list in sorted(self.port_ip_dict.items()):
-			sorted_ip_list = ','.join(sorted(ip_list, key=socket.inet_aton))
 			if self.raw_output:
-				print(sorted_ip_list.replace(',', '\n'))
+				print('\n'.join([item + f":{port}" for item in sorted(ip_list, key=socket.inet_aton)]))
 			else:
-				Logger.print_success(f'Port {port} ({len(ip_list)}) -> [{sorted_ip_list}]')
+				Logger.print_success(f"Port {port} ({len(ip_list)}) -> [{','.join(sorted(ip_list, key=socket.inet_aton))}]")
 
 
 class ScanRun(ScanBase):
